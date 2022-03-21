@@ -1,0 +1,18 @@
+if getgenv().scriptKey:sub(30, 30) == '8' and getgenv().loadingKey:sub(1, 34) == "https://raw.githubusercontent.com" then
+	warn("Loading Script!")
+elseif getgenv().scriptKey:sub(30, 30) ~= '8' then
+	game.Players.LocalPlayer:Kick([[[Whitelister's Hub]
+			Welcome to Whitelister's Hub!
+			
+			You can purchase a license Key at discord.gg/whitelisterhub
+			
+			Error ID: 258 [Script key wasnt found!]
+		]])
+elseif getgenv().loadingKey:sub(1, 34) ~= "https://raw.githubusercontent.com" then
+	game.Players.LocalPlayer:Kick([[
+			[Whitelister's Hub]
+			You're script loading Key is invalid! Check the discord server for a new one!
+			
+			Error ID: 255 [Loading key wasnt found!]
+		]])
+end 
