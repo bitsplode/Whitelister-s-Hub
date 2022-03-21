@@ -1,4 +1,4 @@
-local updater = loadstring(game:HttpGet(getgenv().loadingKey.."/bitsplode/Whitelister-s-Hub/main/Whitelist"))();
+local updater = loadstring(game:HttpGet(getgenv().loadingKey.."/bitsplode/Whitelister-s-Hub/main/Updater"))();
 if getgenv().scriptKey:sub(30, 30) == '8' and getgenv().loadingKey:sub(1, 34) == "https://raw.githubusercontent.com" then
 	if table.find(updater.Blacklisted, getgenv().scriptKey) then
 		game.Players.LocalPlayer:Kick([[[Whitelister's Hub]
