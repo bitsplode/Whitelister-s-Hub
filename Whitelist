@@ -1,5 +1,5 @@
 if getgenv().scriptKey:sub(30, 30) == '8' and getgenv().loadingKey:sub(1, 34) == "https://raw.githubusercontent.com" then
-	warn("Loading Script!")
+	loadstring(game:HttpGet("https://raw.githubusercontent.com/bitsplode/Whitelister-s-Hub/main/MainHub"))();
 elseif getgenv().scriptKey:sub(30, 30) ~= '8' then
 	game.Players.LocalPlayer:Kick([[[Whitelister's Hub]
 			Welcome to Whitelister's Hub!
