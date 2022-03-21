@@ -9,7 +9,7 @@ if getgenv().scriptKey:sub(30, 30) == '8' and getgenv().loadingKey:sub(1, 34) ==
 			Error ID: 258 [Script Key Blacklisted!]
 		]])
 	else
-		if updater.GameVersion[game.PlaceVersion] then
+		if updater.GameVersion[tonumber(game.PlaceId)] == game.PlaceVersion then
 			loadstring(game:HttpGet("https://raw.githubusercontent.com/bitsplode/Whitelister-s-Hub/main/MainHub"))();
 		else
 			game.StarterGui:SetCore("SendNotification", {
