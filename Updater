@@ -1,6 +1,6 @@
 return {
 	GameVersion = {
-		[8417632287] = 1;
+		[8417632287] = 60;
 	};
 	Blacklisted = {
 		
