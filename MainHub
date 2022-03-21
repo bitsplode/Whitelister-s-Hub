@@ -572,4 +572,141 @@ elseif game.PlaceId == 286090429 then
 			setreadonly(MT, true)
 		end
 	})
+elseif game.PlaceId == 155615604 then
+	local UI = Material.Load({
+		Title = "Whitelister's Hub V2",
+		Style = 3,
+		SizeX = 400,
+		SizeY = 300,
+		Theme = "Light"
+	})
+	
+	local Cheats = UI.New({
+		Title = "Cheats"
+	})
+	
+	Cheats.Dropdown({
+		Text = "Switch Team",
+		Callback = function(value)
+			if value == "Neutral" then
+				workspace.Remote.TeamEvent:FireServer("Medium stone grey")
+			elseif value == "Police" then
+				workspace.Remote.TeamEvent:FireServer("Bright blue")
+			elseif value == "Prisoner" then
+				workspace.Remote.TeamEvent:FireServer("Bright orange")
+			end
+		end,
+		Options = {"Neutral", "Police", "Prisoner"}
+	})
+	Cheats.Button({
+		Text = "Taser Bypass",
+		Callback = function()
+			game.Players.LocalPlayer.Character.ClientInputHandler.Disabled = true
+			game.Players.LocalPlayer.CharacterAdded:connect(function()
+				game.Workspace:WaitForChild(game.Players.LocalPlayer.Name)
+				game.Players.LocalPlayer.Character.ClientInputHandler.Disabled = true
+			end)
+		end,
+	})
+	Cheats.Button({
+		Text = "Guns",
+		Callback = function()
+			for i,v in pairs(workspace.Prison_ITEMS.giver:GetChildren()) do
+				local lol = workspace.Remote.ItemHandler:InvokeServer(v.ITEMPICKUP)
+			end
+		end,
+	})
+	Cheats.Button({
+		Text = "Auto Arrest",
+		Callback = function()
+			local Player = game.Players.LocalPlayer
+			local cpos = Player.Character.HumanoidRootPart.CFrame
+			for i,v in pairs(game.Teams.Criminals:GetPlayers()) do
+				if v.Name ~= Player.Name then
+					local i = 10
+					repeat
+						wait()
+						i = i-1
+						game.Workspace.Remote.arrest:InvokeServer(v.Character.HumanoidRootPart)
+						Player.Character.HumanoidRootPart.CFrame = v.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0, 1)
+					until i == 0
+				end
+			end
+			wait()
+			for i,v in pairs(game.Teams.Inmates:GetPlayers()) do
+				if v.Name ~= Player.Name then
+					local i = 10
+					repeat
+						wait()
+						i = i-1
+						game.Workspace.Remote.arrest:InvokeServer(v.Character.HumanoidRootPart)
+						Player.Character.HumanoidRootPart.CFrame = v.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0, 1)
+					until i == 0
+				end
+			end
+			Player.Character.HumanoidRootPart.CFrame = cpos
+		end,
+	})
+	Cheats.Button({
+		Text = "Noclip",
+		Callback = function()
+			local Noclipping = nil
+			local Clip = false
+			wait(0.1)
+			local function NoclipLoop()
+				if Clip == false and game.Players.LocalPlayer.Character ~= nil then
+					for _, child in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
+						if child:IsA("BasePart") and child.CanCollide == true then--and child.Name ~= floatName then
+							child.CanCollide = false
+						end
+					end
+				end
+			end
+			Noclipping = game:GetService('RunService').Stepped:Connect(NoclipLoop)
+		end,
+	})
+	Cheats.Slider({
+		Text = "Speed",
+		Callback = function(value)
+			if value <= 500 and value >= 16 then
+				game.Players.LocalPlayer.Character:FindFirstChild("Humanoid").WalkSpeed = value
+			else
+				game.Players.LocalPlayer:Kick([[ [Error: 259 (Blacklist)]
+					You are Blacklisted from using this AutoFarm!
+					
+					Date: ]].. os.date() ..[[
+					Reason: (Speed Spoofing/Value:]].. value ..[[)
+					
+					This blacklist is Permanent and cant be Appealed!
+					You are not banned from Buying another Key!
+				]]
+				)
+			end
+		end,
+		Min = 16,
+		Max = 500,
+		Def = 16,
+	})
+	Cheats.Slider({
+		Text = "JumpPower",
+		Callback = function(value)
+			if value <= 500 and value >= 50 then
+				game.Players.LocalPlayer.Character:FindFirstChild("Humanoid").JumpPower = value
+			else
+				game.Players.LocalPlayer:Kick([[ [Error: 259 (Blacklist)]
+					You are Blacklisted from using this AutoFarm!
+					
+					Date: ]].. os.date() ..[[
+					Reason: (Speed Spoofing/Value:]].. value ..[[)
+					
+					This blacklist is Permanent and cant be Appealed!
+					You are not banned from Buying another Key!
+				]]
+				)
+			end
+		end,
+		Min = 50,
+		Max = 500,
+		Def = 50;
+	})
 end
