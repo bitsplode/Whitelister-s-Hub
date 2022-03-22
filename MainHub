@@ -105,7 +105,9 @@ if game.PlaceId == 8417632287 then
 				_G.Stats["BountyResetEnabled"] = dt["Bounty Reset"];
 			end
 			for i, v in pairs(dt) do
-				if i == "AutoRob" and v == true then
+				if i == "AutoRob [⚠️ DETECTED ⚠️]" and v == true then
+					return
+				elseif i == "NDUFUDIFSBFSDFBSD" then
 					local TweenService = game:GetService("TweenService")
 					local vehicles = {}
 					local trainRemote
@@ -347,12 +349,12 @@ if game.PlaceId == 8417632287 then
 			end
 		end,
 		Options = {
-			AutoRob = {
+			["AutoRob [⚠️ DETECTED ⚠️]"] = {
 				Enabled = false,
 				Menu = {
 					Info = function(self)
 						UI.Banner({
-							Text = "Robs all the stores in-game for you!"
+							Text = "Robs all the stores in-game for you! [CURRENTLY DETECTED DONT USE IT]"
 						})
 					end
 				}
