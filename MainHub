@@ -711,7 +711,7 @@ elseif game.PlaceId == 155615604 then
 		Max = 500,
 		Def = 50;
 	})
-elseif game.PlaceId == 000000 then
+elseif game.PlaceId == 1647589158 then
 	local UI = Material.Load({
 		Title = "Whitelister's Hub V2",
 		Style = 3,
