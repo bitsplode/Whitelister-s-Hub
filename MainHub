@@ -711,4 +711,202 @@ elseif game.PlaceId == 155615604 then
 		Max = 500,
 		Def = 50;
 	})
+elseif game.PlaceId == 000000 then
+	local UI = Material.Load({
+		Title = "Whitelister's Hub V2",
+		Style = 3,
+		SizeX = 400,
+		SizeY = 300,
+		Theme = "Light"
+	})
+	
+	local Cheats = UI.New({
+		Title = "AutoFarm"
+	})
+	
+	Cheats.Button({
+		Text = "Start",
+		Callback = function()
+			local player = game.Players.LocalPlayer
+			local TweenService = game:GetService("TweenService")
+			local function tweento(part, pos, speed, cframe)
+				local velocity = Instance.new("BodyVelocity", part)
+				velocity.Name = "nil"
+				velocity.Velocity = Vector3.new(0 ,0 ,0)
+				
+				spawn(function()
+					while wait() do
+						game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+					end
+				end)
+				
+				game.Players.LocalPlayer.Character.Humanoid.Jump = true
+				
+				local calculation = (part.Position - pos).Magnitude / (speed)
+				local Tween = TweenService:Create(part, TweenInfo.new(calculation, Enum.EasingStyle.Linear), {CFrame = cframe})
+				Tween:Play()
+				wait(calculation + .5)
+			end
+			
+			local function vehicleTeleport(vehicle, cframe)
+				vehicle:SetPrimaryPartCFrame(cframe)
+				wait(.5)
+				return;
+			end
+			
+			local function getObjectNear(location, childOf)
+				local closest, object = math.huge, nil
+				for i, v in pairs(childOf:GetChildren()) do
+					if v:IsA("BasePart") then
+						local mag = (v.Position - location).Magnitude
+						if mag < closest then
+							closest = mag
+							object = v
+						end
+					end
+				end
+				return object
+			end
+			
+			local starbucksCooldown = 		tick();
+			local supermarketCooldown = 	tick();
+			
+			local vehicleTable = 	{[1] = "Caddie"}
+			local museumTable = 	{[1] = "CollectMuseumArtifact",[2] = workspace.Robberies.Museum.TRex.Bone}
+			local resortTable = 	{[1] = "RemoveVent",[2] = workspace.UnorganizedStuff.UNIONPart}
+			local dynamiteTable = 	{[1] = "TakeDynamite",[2] = workspace.DynamiteBarrels.DynamiteBarrel}
+			local vehicleTab = 		{[1] = "EnterVehicle",[2] = nil}
+			local ventTable = 		{[1] = "RemoveJewelVent",[2] = workspace.UnorganizedStuff.UNIONPart}
+			local jewelryPunch = 	{[1] = workspace.Robberies.JewelryStore.JewelCases.JewelCase.PunchableGlass}
+			local templeTable = 	{[1] = "TakeTempleArtifact",[2] = workspace.Robberies.DesertTemple.Artifacts.Statue}
+			--local starbucksTab = 	{[1] = "RobStarBlox",[2] = workspace.HighDetail.InteriorObjects.coffeeshop.Model.Context}
+			--local supermarketTab = 	{[1] = "RobBloxMart",[2] = workspace.Robberies.BloxMart.Model.Context}
+			
+			local function checkRobberys()
+				if workspace.Robberies.Museum.OpenSign.Sign.SurfaceGui.Label.Text:lower() == "open" then
+					return "Museum"
+				elseif workspace.Robberies.Bank.OpenSign.Sign.SurfaceGui.Label.Text:lower() == "open" then
+					return "Bank"
+				elseif workspace.Robberies.Resort.OpenSign.Sign.SurfaceGui.Label.Text:lower() == "open" then
+					return "Resort"
+					--elseif workspace.Robberies.JewelryStore.OpenSign.Sign.SurfaceGui.Label.Text:lower() == "open" then
+					--	return "Jewelry"
+				elseif workspace.Robberies.DesertTemple.FrontDoor.Closed.Transparency == 1 then
+					return "Temple"
+				end
+			end
+			
+			if workspace.Map.City.MiscBuildings:FindFirstChild("BlueBuilding") and workspace.Robberies.Museum:FindFirstChild("Spotlights") and workspace.Robberies.Museum:FindFirstChild("Lasers") then
+				workspace.Map.City.MiscBuildings:FindFirstChild("BlueBuilding"):Destroy()
+				workspace.Robberies.Museum:FindFirstChild("Spotlights"):Destroy()
+				workspace.Robberies.Museum:FindFirstChild("Lasers"):Destroy()
+			end
+			
+			while wait() do
+				if player.Team == game.Teams.Prisoners then
+					tweento(player.Character.HumanoidRootPart, Vector3.new(-360, 26, -78), 35, CFrame.new(-360, 26, -78))
+					game:GetService("ReplicatedStorage").Functions.SpawnVehicle:InvokeServer(unpack(vehicleTable))
+					local vehicle = player.Character.Humanoid.SeatPart.Parent.Parent
+					if vehicle then
+						vehicleTeleport(vehicle, CFrame.new(-2557.01, 89.563, 1137.1))
+					else
+						repeat			
+							game:GetService("ReplicatedStorage").Functions.SpawnVehicle:InvokeServer(unpack(vehicleTable))
+							wait(5)
+						until player.Character.Humanoid.SeatPart ~= nil
+						vehicleTeleport(vehicle, CFrame.new(-2557.01, 89.563, 1137.1))
+					end
+					wait(.5)
+				end
+				local openRobberys = checkRobberys()
+				if openRobberys == "Museum" then
+					if player.Character.Humanoid.SeatPart ~= nil then
+						local tpVehicle = player.Character.Humanoid.SeatPart.Parent.Parent
+						vehicleTeleport(tpVehicle, CFrame.new(-3034.25, 38.19, 844.318))
+						--player.Character:FindFirstChild("Humanoid").Jump = true
+						for i, v in pairs(workspace.Robberies.Museum.TRex:GetChildren()) do
+							museumTable[2] = v
+							game:GetService("ReplicatedStorage").NetworkEvents.EventIndex1:FireServer(unpack(museumTable))
+						end
+						wait(.5)
+						--	tweento(player.Character.HumanoidRootPart, Vector3.new(-3034.25, 38.19, 844.318), 35, CFrame.new(-3034.25, 38.19, 844.318))
+						vehicleTeleport(tpVehicle, CFrame.new(-3299.591, 23.925, 110.212))
+						workspace.Robberies.Museum.OpenSign.Sign.SurfaceGui.Label.Text = "ENCRYPTED"
+					end
+				elseif openRobberys == "Bank" then
+					local tpVehicle = player.Character.Humanoid.SeatPart.Parent.Parent
+					if tpVehicle then
+						vehicleTeleport(tpVehicle, CFrame.new(-2838.08, 31.058, 107.26))
+						wait(20)
+						vehicleTeleport(tpVehicle, CFrame.new(-3299.591, 23.925, 110.212))
+						workspace.Robberies.Bank.OpenSign.Sign.SurfaceGui.Label.Text = "ENCRYPTED"
+					end
+				elseif openRobberys == "Resort" then
+					local tpVehicle = player.Character.Humanoid.SeatPart.Parent.Parent
+					local vent = getObjectNear(Vector3.new(-2744.65, 25.202, 1770.912), workspace.UnorganizedStuff)
+					if tpVehicle and vent then
+						resortTable[2] = vent;
+						game:GetService("ReplicatedStorage").NetworkEvents.EventIndex2:FireServer(unpack(resortTable))
+						
+						vehicleTeleport(tpVehicle, CFrame.new(-2823.514, -23.571, 1702.122))
+						game:GetService("ReplicatedStorage").Events.ExitVehicle:FireServer()
+						wait(.5)
+						if player.Backpack:FindFirstChild("Dynamite") then
+							player.Character.Humanoid:EquipTool(player.Backpack:FindFirstChild("Dynamite"))
+						else
+							game:GetService("ReplicatedStorage").NetworkEvents.EventIndex6:FireServer(unpack(dynamiteTable))
+							wait(.5)
+							player.Character.Humanoid:EquipTool(player.Backpack:FindFirstChild("Dynamite"))
+						end
+						tweento(player.Character.HumanoidRootPart, Vector3.new(-2809.962, -24.786, 1714.963), 35, CFrame.new(-2809.962, -24.786, 1714.963))
+						wait(2)
+						vehicleTab[2] = tpVehicle.Seats.Driver
+						game:GetService("ReplicatedStorage").NetworkEvents.EventIndex1:FireServer(unpack(vehicleTab))
+						
+						wait(35)
+						vehicleTeleport(tpVehicle, CFrame.new(-3299.591, 23.925, 110.212))
+						workspace.Robberies.Resort.OpenSign.Sign.SurfaceGui.Label.Text = "ENCRYPTED"
+					end
+				elseif openRobberys == "Jewelry" then
+					local tpVehicle = player.Character.Humanoid.SeatPart.Parent.Parent
+					local vent = getObjectNear(Vector3.new(-2744.65, 25.202, 1770.912), workspace.UnorganizedStuff)
+					if vent and tpVehicle then
+						ventTable[2] = vent;
+						game:GetService("ReplicatedStorage").NetworkEvents.EventIndex2:FireServer(unpack(ventTable))
+						local amount = 0
+						for i, v in pairs(workspace.Robberies.JewelryStore.JewelCases:GetChildren()) do
+							wait(1)
+							jewelryPunch[1] = v.PunchableGlass
+							game:GetService("ReplicatedStorage").Events.PunchHit:FireServer(unpack(jewelryPunch))
+						end
+						workspace.Robberies.JewelryStore.OpenSign.Sign.SurfaceGui.Label.Text = "ENCRYPTED"
+						vehicleTeleport(tpVehicle, CFrame.new(-3073.612, 24.386, 1002.212))
+					else
+						print("Vent could'nt be found!")
+					end
+				elseif openRobberys == "Temple" then
+					local tpVehicle = player.Character.Humanoid.SeatPart.Parent.Parent
+					if tpVehicle then
+						workspace.Robberies.DesertTemple.FrontDoor.Closed.Transparency = 0
+						game:GetService("ReplicatedStorage").NetworkEvents.EventIndex4:FireServer(unpack(templeTable))
+						wait(1)
+						vehicleTeleport(tpVehicle, CFrame.new(-3073.612, 24.386, 1002.212))
+					end
+				else
+					local safePlaceMag = (Vector3.new(-2557.01, 89.563, 1137.1) - player.Character.HumanoidRootPart.Position).Magnitude
+					if safePlaceMag > 75 then
+						local tpVehicle = player.Character.Humanoid.SeatPart.Parent.Parent
+						vehicleTeleport(tpVehicle, CFrame.new(-2557.01, 89.563, 1137.1))
+	--[[	else
+			if starbucksCooldown < tick() then
+				game:GetService("ReplicatedStorage").NetworkEvents.EventIndex9:FireServer(unpack(starbucksTab))
+				starbucksTab = tick() + 300
+			elseif supermarketCooldown < tick() then
+				
+			end]]
+					end
+				end
+			end
+		end,
+	})
 end
