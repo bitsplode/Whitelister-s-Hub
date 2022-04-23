@@ -1,9 +1,9 @@
 return {
 	GameVersion = {
 		[8417632287] = 64;
-		[286090429] = 9988;
+		[game.PlaceVersion] = 9988;
 		[155615604] = 297;
-		[1647589158] = 17170
+		[game.PlaceVersion] = 17170
 	};
 	Blacklisted = {
 		
