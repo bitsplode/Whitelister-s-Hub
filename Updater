@@ -1,9 +1,9 @@
 return {
 	GameVersion = {
 		[8417632287] = 64;
-		[286090429] = game.PlaceVersion;
+		[286090429] = tonumber(game.PlaceVersion);
 		[155615604] = 297;
-		[1647589158] = game.PlaceVersion
+		[1647589158] = tonumber(game.PlaceVersion);
 	};
 	Blacklisted = {
 		
